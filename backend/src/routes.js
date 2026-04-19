@@ -4,14 +4,25 @@ const db = require('./database');
 const { nanoid } = require('nanoid');
 
 // Shorten a URL
-router.post('/shorten', (req, res) => {
-  const { original_url } = req.body;
+router.post('/shorten', async (req, res) => {
+  const { original_url, custom_code } = req.body;
 
   if (!original_url) {
     return res.status(400).json({ error: 'URL is required' });
   }
 
-  const short_code = nanoid(6);
+  const short_code = custom_code || nanoid(6);
+
+  if (custom_code) {
+    const exists = await new Promise((resolve) => {
+      db.get('SELECT * FROM urls WHERE short_code = ?', [short_code], (err, row) => {
+        resolve(row);
+      });
+    });
+    if (exists) {
+      return res.status(400).json({ error: 'Custom code already taken. Try another.' });
+    }
+  }
 
   db.run(
     'INSERT INTO urls (original_url, short_code) VALUES (?, ?)',
@@ -28,7 +39,6 @@ router.post('/shorten', (req, res) => {
     }
   );
 });
-
 
 
 // Get analytics for a short code
