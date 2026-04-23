@@ -1,6 +1,6 @@
 # LinkSnap
 
-LinkSnap is a full-stack URL shortener with an integrated analytics dashboard that allows users to create, share, and track shortened links in real time.
+LinkSnap is a full-stack URL shortener with an integrated analytics dashboard and QR code generation, enabling users to create, share, and track shortened links in real time.
 
 ---
 
