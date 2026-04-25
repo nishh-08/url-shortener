@@ -19,7 +19,7 @@ router.post('/shorten', async (req, res) => {
       [short_code]
     );
     if (exists.rows.length > 0) {
-      return res.status(400).json({ error: 'Custom code already taken. Try another.' });
+      return res.status(400).json({ error: 'Custom code already taken! Try another.' });
     }
   }
 
